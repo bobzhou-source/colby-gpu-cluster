@@ -1,0 +1,7 @@
+n15|idle|gpu:h200:4(S:0-1)|gpu:H200:0(IDX:N/A)|0/64/0/64|515000|(null)|gpu
+n16|mixed|gpu:h200:4(S:0-1)|gpu:H200:2(IDX:0-1)|32/64/0/64|515000|(null)|gpu
+n20|allocated|gpu:A100:2|gpu:A100:2(IDX:0-1)|24/48/0/48|257000|(null)|gpu
+n21|drng*|gpu:A100:2|gpu:A100:0|0/48/0/48|257000|KernelPanic|gpu
+n22|idle~|gpu:h200:4|gpu:h200:1(IDX:3)|8/64/0/64|515000|(null)|gpu
+n30|mix|gpu:1g.20gb:7|gpu:1g.20gb:3(IDX:0-2)|16/32/0/48|257000|(null)|gpu
+n31|down|gpu:h200:4|(null)|0/64/0/64|515000|Not responding|gpu

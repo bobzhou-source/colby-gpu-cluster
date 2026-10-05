@@ -1,0 +1,6 @@
+1001|alice|train-h200|RUNNING|1-02:03:04|7-00:00:00|2|n[15-16]|n[15-16]|2026-10-04T12:26:56|N/A|gpu:h200:4
+1002|bwong|eval-a100|RUNNING|3:20:05|1-00:00:00|1|n20|n20|2026-10-05T11:09:55|N/A|gpu:A100:2
+1003|cdiaz|mig-infer|RUNNING|45:00|2:00:00|1|n30|n30|2026-10-05T13:45:00|N/A|gpu:1g.20gb:3
+1004|dpark|finetune-h200|PENDING|0:00|1-12:00:00|2||(Resources)|N/A|2026-10-06T09:00:00|gpu:h200:4
+1005|edwards|sweep-mig|PENDING|0:00|UNLIMITED|1||(Priority)|N/A|N/A|gpu:1g.20gb:1
+1006|alice|debug-h200|RUNNING|30:00|30:00|1|n22|n22|2026-10-05T14:00:00|N/A|gpu:h200:1

@@ -1,0 +1,3 @@
+ReservationName=workshop StartTime=2026-10-15T14:00:00 EndTime=2026-10-15T18:00:00 Duration=04:00:00 Nodes=n[21-22] NodeCnt=2 CoreCnt=96 Features=(null) PartitionName=gpu Flags=IGNORE_JOBS Licenses=(null) BurstBuffer=(null) Watts=(null) MaxNodes=2 MaxCPUsPerNode=48 MaxMemoryPerNode=515000 Users=alice,bwong Groups=(null) Accounts=(null)
+
+ReservationName=maintenance StartTime=2026-11-01T08:00:00 EndTime=2026-11-01T12:00:00 Duration=04:00:00 Nodes=n30 NodeCnt=1 CoreCnt=48 Features=(null) PartitionName=gpu Flags=MAINT Licenses=(null) BurstBuffer=(null) Watts=(null) MaxNodes=1 MaxCPUsPerNode=48 MaxMemoryPerNode=257000 Users=cdiaz,dpark,edwards Groups=(null) Accounts=(null)
