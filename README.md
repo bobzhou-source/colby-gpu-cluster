@@ -75,8 +75,10 @@ Your HPC admin can publish the feed with the script in
 a 60-second cron or systemd timer costs the cluster three short commands a
 minute. Point the app at that URL.
 
-Details the published feed does not carry (measured GPU telemetry, the
-copy-ready `sinfo` command) are hidden rather than shown empty.
+The copy-ready `sinfo` command in a node's inspector is SSH-only, so it is
+hidden when you use a status page — there is no SSH host to run it against.
+Measured telemetry is a local file you choose, so it appears for either source
+whenever a reading is attached.
 
 ### SSH
 

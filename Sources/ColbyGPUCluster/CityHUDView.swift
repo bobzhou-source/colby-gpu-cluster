@@ -262,9 +262,12 @@ struct CityHUDView: View {
     let lastSuccessfulAt: Date?
     let sshHost: String
     let gpuTelemetry: GPUTelemetrySnapshot
-    /// SSH-only affordances (the ready-made status command, measured telemetry)
-    /// are hidden for a published status feed, which cannot supply either.
-    let showsSSHDetails: Bool
+    /// The ready-made SSH status command is hidden for a published status feed,
+    /// which has no SSH host to run it against. Measured telemetry comes from a
+    /// local file the user picks, so `showsTelemetry` follows the reading
+    /// itself rather than the cluster source.
+    let showsSSHCommand: Bool
+    let showsTelemetry: Bool
     let now: Date
     let onDismiss: () -> Void
 
@@ -276,7 +279,8 @@ struct CityHUDView: View {
         lastSuccessfulAt: Date? = nil,
         sshHost: String,
         gpuTelemetry: GPUTelemetrySnapshot = .empty,
-        showsSSHDetails: Bool = true,
+        showsSSHCommand: Bool = true,
+        showsTelemetry: Bool = true,
         now: Date = Date(),
         onDismiss: @escaping () -> Void
     ) {
@@ -285,7 +289,8 @@ struct CityHUDView: View {
         self.lastSuccessfulAt = lastSuccessfulAt
         self.sshHost = sshHost
         self.gpuTelemetry = gpuTelemetry
-        self.showsSSHDetails = showsSSHDetails
+        self.showsSSHCommand = showsSSHCommand
+        self.showsTelemetry = showsTelemetry
         self.now = now
         self.onDismiss = onDismiss
     }
@@ -315,16 +320,18 @@ struct CityHUDView: View {
                 schedulerSummary(model: model)
             }
 
-            // Measured telemetry is its own section so allocation is never
-            // read as GPU activity. A published feed carries none, so it is
-            // omitted rather than shown empty.
-            if showsSSHDetails {
+            // Measured telemetry comes from a local file the user chose, so it is
+            // shown for either data source — but only when a reading is actually
+            // attached, never as an empty "no sample" section.
+            if showsTelemetry {
                 GPUTelemetrySummaryView(snapshot: gpuTelemetry, nodeName: model.nodeName, now: now)
             }
 
             jobsSection(model: model)
 
-            if showsSSHDetails {
+            // The status page carries no SSH host, so the copy-ready command
+            // would be a lie there.
+            if showsSSHCommand {
                 Divider()
                 Button {
                     NSPasteboard.general.clearContents()

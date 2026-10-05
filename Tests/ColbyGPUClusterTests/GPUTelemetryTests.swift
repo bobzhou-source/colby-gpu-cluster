@@ -282,6 +282,21 @@ final class GPUTelemetryFreshnessTests: XCTestCase {
         XCTAssertEqual(failed.freshness(at: sampledAt.addingTimeInterval(1)), .stale)
         XCTAssertEqual(GPUTelemetrySnapshot.empty.freshness(at: sampledAt), .unavailable)
     }
+
+    /// The inspector shows the telemetry section only when a reading is attached,
+    /// so "nothing configured" and "configured but broken" must be distinct.
+    func testEmptinessReflectsWhetherATelemetryFileIsAttached() {
+        XCTAssertTrue(GPUTelemetrySnapshot.empty.isEmpty)
+        XCTAssertFalse(snapshot().isEmpty)
+
+        // A failed read still counts as attached: the user picked a file, and the
+        // inspector has to be able to say it could not be read.
+        let failed = GPUTelemetrySnapshot(
+            readError: "no such file",
+            sourcePath: "/tmp/example-telemetry.json"
+        )
+        XCTAssertFalse(failed.isEmpty)
+    }
 }
 
 @MainActor

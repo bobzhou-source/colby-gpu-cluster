@@ -1102,7 +1102,8 @@ struct CitySceneView: View {
             lastSuccessfulAt: store.lastSuccessfulAt,
             sshHost: sshHost.trimmingCharacters(in: .whitespacesAndNewlines),
             gpuTelemetry: store.gpuTelemetry,
-            showsSSHDetails: source.usesSSH,
+            showsSSHCommand: source.usesSSH,
+            showsTelemetry: !store.gpuTelemetry.isEmpty,
             now: now,
             onDismiss: { selectedPlotID = nil }
         )

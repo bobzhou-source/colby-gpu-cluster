@@ -136,6 +136,13 @@ struct GPUTelemetrySnapshot: Equatable, Sendable {
 
     static let empty = GPUTelemetrySnapshot()
 
+    /// True when nothing has been read yet — no sample, no node, no failure.
+    /// The HUD uses this to decide whether a telemetry file is attached at all,
+    /// independently of which cluster data source is in use.
+    var isEmpty: Bool {
+        sampledAt == nil && nodes.isEmpty && readError == nil
+    }
+
     /// Timestamp carried by the sample itself — never the file's modification time.
     var sampledAt: Date?
     /// Measured nodes keyed by scheduler node name.
