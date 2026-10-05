@@ -12,8 +12,21 @@ third-party dependencies, no Python, and no background service.
 
 ## Screenshots
 
-_Placeholder — screenshots of the menu bar, the province/city/street zoom bands,
-and the node inspector go here._
+One building per GPU plot, coloured by what the scheduler says it is doing —
+allocated, free, unavailable, or unknown. Click a plot to inspect it.
+
+![The city: every GPU plot in the province, coloured by scheduler state](docs/screenshots/cluster-city.png)
+
+![The node inspector for one plot: free GPUs, running jobs, and their elapsed and wall-clock limits](docs/screenshots/node-inspector.png)
+
+![The menu bar panel: free and allocated GPU counts, the city, and the entrance queue](docs/screenshots/menu-bar-panel.png)
+
+![The entrance queue: pending jobs and the scheduler's reason for each](docs/screenshots/entrance-queue.png)
+
+![Settings → Connection: choose a status page URL or SSH](docs/screenshots/settings-connection.png)
+
+_Captured from the `demo-status.json` fixture shipped in the tests, with the
+System theme._
 
 <!-- /Screenshots -->
 
@@ -21,13 +34,22 @@ and the node inspector go here._
 
 ### From a release
 
-1. Download the latest `.app` (or the release `.zip`) from
-   [Releases](../../releases).
+1. Download the release `.zip` from
+   [Releases](https://github.com/bobzhou-source/colby-gpu-cluster/releases/latest)
+   and unzip it.
 2. Move `Colby GPU Cluster.app` to `/Applications` (or `~/Applications`).
 3. Launch it. It lives in the menu bar, not the Dock.
 
-The app is unsigned, so the first launch may need **System Settings → Privacy &
-Security → Open Anyway**.
+The app is ad-hoc signed but not notarized, so the first launch is blocked by
+Gatekeeper. Either **right-click the app → Open → Open**, or drop the
+quarantine flag yourself:
+
+```bash
+xattr -dr com.apple.quarantine "/Applications/Colby GPU Cluster.app"
+```
+
+Then pick a data source — see [Data sources](#data-sources). The published
+status page needs no SSH login.
 
 ### From source
 
