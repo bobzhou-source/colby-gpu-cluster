@@ -1,0 +1,229 @@
+{
+  "schema": "colby-gpu-status/1",
+  "cluster": "Colby HPC",
+  "generated_at": "2026-10-05T14:25:43-04:00",
+  "nodes": [
+    {
+      "name": "n15",
+      "state": "idle",
+      "partitions": [
+        "gpu"
+      ],
+      "gpu_type": "h200",
+      "gpus_total": 4,
+      "gpus_used": 0,
+      "cpus_total": 64,
+      "cpus_alloc": 0,
+      "mem_total_mb": 515000,
+      "mem_alloc_mb": 0,
+      "reason": null
+    },
+    {
+      "name": "n16",
+      "state": "mixed",
+      "partitions": [
+        "gpu"
+      ],
+      "gpu_type": "h200",
+      "gpus_total": 4,
+      "gpus_used": 2,
+      "cpus_total": 64,
+      "cpus_alloc": 32,
+      "mem_total_mb": 515000,
+      "mem_alloc_mb": 0,
+      "reason": null
+    },
+    {
+      "name": "n20",
+      "state": "allocated",
+      "partitions": [
+        "gpu"
+      ],
+      "gpu_type": "A100",
+      "gpus_total": 2,
+      "gpus_used": 2,
+      "cpus_total": 48,
+      "cpus_alloc": 24,
+      "mem_total_mb": 257000,
+      "mem_alloc_mb": 0,
+      "reason": null
+    },
+    {
+      "name": "n21",
+      "state": "drain",
+      "partitions": [
+        "gpu"
+      ],
+      "gpu_type": "A100",
+      "gpus_total": 2,
+      "gpus_used": 0,
+      "cpus_total": 48,
+      "cpus_alloc": 0,
+      "mem_total_mb": 257000,
+      "mem_alloc_mb": 0,
+      "reason": "KernelPanic"
+    },
+    {
+      "name": "n22",
+      "state": "idle",
+      "partitions": [
+        "gpu"
+      ],
+      "gpu_type": "h200",
+      "gpus_total": 4,
+      "gpus_used": 1,
+      "cpus_total": 64,
+      "cpus_alloc": 8,
+      "mem_total_mb": 515000,
+      "mem_alloc_mb": 0,
+      "reason": null
+    },
+    {
+      "name": "n30",
+      "state": "mixed",
+      "partitions": [
+        "gpu"
+      ],
+      "gpu_type": "1g.20gb",
+      "gpus_total": 7,
+      "gpus_used": 3,
+      "cpus_total": 48,
+      "cpus_alloc": 16,
+      "mem_total_mb": 257000,
+      "mem_alloc_mb": 0,
+      "reason": null
+    },
+    {
+      "name": "n31",
+      "state": "down",
+      "partitions": [
+        "gpu"
+      ],
+      "gpu_type": "h200",
+      "gpus_total": 4,
+      "gpus_used": 0,
+      "cpus_total": 64,
+      "cpus_alloc": 0,
+      "mem_total_mb": 515000,
+      "mem_alloc_mb": 0,
+      "reason": "Not responding"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "1001",
+      "user": "alice",
+      "name": "train-h200",
+      "state": "RUNNING",
+      "partition": "gpu",
+      "nodes": [
+        "n15",
+        "n16"
+      ],
+      "gpus": 4,
+      "elapsed_s": 93784,
+      "time_limit_s": 604800,
+      "reason": null,
+      "start_time": "2026-10-04T12:26:56-04:00"
+    },
+    {
+      "id": "1002",
+      "user": "bwong",
+      "name": "eval-a100",
+      "state": "RUNNING",
+      "partition": "gpu",
+      "nodes": [
+        "n20"
+      ],
+      "gpus": 2,
+      "elapsed_s": 12005,
+      "time_limit_s": 86400,
+      "reason": null,
+      "start_time": "2026-10-05T11:09:55-04:00"
+    },
+    {
+      "id": "1003",
+      "user": "cdiaz",
+      "name": "mig-infer",
+      "state": "RUNNING",
+      "partition": "gpu",
+      "nodes": [
+        "n30"
+      ],
+      "gpus": 3,
+      "elapsed_s": 2700,
+      "time_limit_s": 7200,
+      "reason": null,
+      "start_time": "2026-10-05T13:45:00-04:00"
+    },
+    {
+      "id": "1004",
+      "user": "dpark",
+      "name": "finetune-h200",
+      "state": "PENDING",
+      "partition": "gpu",
+      "nodes": [],
+      "gpus": 4,
+      "elapsed_s": 0,
+      "time_limit_s": 129600,
+      "reason": "Resources",
+      "start_estimate": "2026-10-06T09:00:00-04:00"
+    },
+    {
+      "id": "1005",
+      "user": "edwards",
+      "name": "sweep-mig",
+      "state": "PENDING",
+      "partition": "gpu",
+      "nodes": [],
+      "gpus": 1,
+      "elapsed_s": 0,
+      "time_limit_s": null,
+      "reason": "Priority",
+      "start_estimate": null
+    },
+    {
+      "id": "1006",
+      "user": "alice",
+      "name": "debug-h200",
+      "state": "RUNNING",
+      "partition": "gpu",
+      "nodes": [
+        "n22"
+      ],
+      "gpus": 1,
+      "elapsed_s": 1800,
+      "time_limit_s": 1800,
+      "reason": null,
+      "start_time": "2026-10-05T14:00:00-04:00"
+    }
+  ],
+  "reservations": [
+    {
+      "name": "workshop",
+      "nodes": [
+        "n21",
+        "n22"
+      ],
+      "start": "2026-10-15T14:00:00-04:00",
+      "end": "2026-10-15T18:00:00-04:00",
+      "users": [
+        "alice",
+        "bwong"
+      ]
+    },
+    {
+      "name": "maintenance",
+      "nodes": [
+        "n30"
+      ],
+      "start": "2026-11-01T08:00:00-05:00",
+      "end": "2026-11-01T12:00:00-05:00",
+      "users": [
+        "cdiaz",
+        "dpark",
+        "edwards"
+      ]
+    }
+  ]
+}

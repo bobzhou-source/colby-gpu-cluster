@@ -1,0 +1,26 @@
+{
+  "schema": "colby-gpu-status/1",
+  "cluster": "Colby HPC",
+  "generated_at": "2026-10-05T14:30:00-04:00",
+  "nodes": [
+    {"name": "n1",  "state": "mixed",     "partitions": ["gpu"], "gpu_type": "A100",     "gpus_total": 2, "gpus_used": 1, "cpus_total": 64,  "cpus_alloc": 16, "mem_total_mb": 1000000, "mem_alloc_mb": 128000, "reason": null},
+    {"name": "n2",  "state": "allocated", "partitions": ["gpu"], "gpu_type": "L40S",     "gpus_total": 2, "gpus_used": 2, "cpus_total": 64,  "cpus_alloc": 32, "mem_total_mb": 1000000, "mem_alloc_mb": 256000, "reason": null},
+    {"name": "n7",  "state": "idle",      "partitions": ["gpu"], "gpu_type": "L4",       "gpus_total": 1, "gpus_used": 0, "cpus_total": 64,  "cpus_alloc": 0,  "mem_total_mb": 360000,  "mem_alloc_mb": 0,      "reason": null},
+    {"name": "n8",  "state": "mixed",     "partitions": ["gpu"], "gpu_type": "L4",       "gpus_total": 1, "gpus_used": 1, "cpus_total": 64,  "cpus_alloc": 8,  "mem_total_mb": 360000,  "mem_alloc_mb": 32000,  "reason": null},
+    {"name": "n10", "state": "drain",     "partitions": ["gpu"], "gpu_type": "A100",     "gpus_total": 2, "gpus_used": 0, "cpus_total": 32,  "cpus_alloc": 0,  "mem_total_mb": 62000,   "mem_alloc_mb": 0,      "reason": "GPU XID 79 - awaiting reboot"},
+    {"name": "n15", "state": "reserved",  "partitions": ["gpu"], "gpu_type": "H200",     "gpus_total": 4, "gpus_used": 0, "cpus_total": 64,  "cpus_alloc": 0,  "mem_total_mb": 750000,  "mem_alloc_mb": 0,      "reason": null},
+    {"name": "n16", "state": "mixed",     "partitions": ["gpu"], "gpu_type": "RTX PRO 6000", "gpus_total": 4, "gpus_used": 3, "cpus_total": 96, "cpus_alloc": 48, "mem_total_mb": 750000, "mem_alloc_mb": 400000, "reason": null}
+  ],
+  "jobs": [
+    {"id": "17251", "user": "alice", "name": "protein-fold-sweep", "state": "RUNNING", "partition": "gpu", "nodes": ["n1"],  "gpus": 1, "elapsed_s": 52400, "time_limit_s": 86400, "start_time": "2026-10-04T23:57:00-04:00", "reason": null},
+    {"id": "17252", "user": "bwong",  "name": "llm-eval",           "state": "RUNNING", "partition": "gpu", "nodes": ["n2"],  "gpus": 2, "elapsed_s": 9100,  "time_limit_s": 28800, "start_time": "2026-10-05T11:58:20-04:00", "reason": null},
+    {"id": "17253", "user": "cdiaz",  "name": "jupyter",            "state": "RUNNING", "partition": "gpu", "nodes": ["n8"],  "gpus": 1, "elapsed_s": 3600,  "time_limit_s": 14400, "start_time": "2026-10-05T13:30:00-04:00", "reason": null},
+    {"id": "17254", "user": "alice", "name": "diffusion-train",    "state": "RUNNING", "partition": "gpu", "nodes": ["n16"], "gpus": 2, "elapsed_s": 80300, "time_limit_s": 86400, "start_time": "2026-10-04T16:11:40-04:00", "reason": null},
+    {"id": "17255", "user": "dpark",  "name": "climate-unet",       "state": "RUNNING", "partition": "gpu", "nodes": ["n16"], "gpus": 1, "elapsed_s": 1200,  "time_limit_s": 172800, "start_time": "2026-10-05T14:10:00-04:00", "reason": null},
+    {"id": "17256", "user": "bwong",  "name": "llm-eval-big",       "state": "PENDING", "partition": "gpu", "nodes": [],      "gpus": 4, "elapsed_s": 0,     "time_limit_s": 86400, "start_estimate": "2026-10-15T14:00:00-04:00", "reason": "Resources"},
+    {"id": "17257", "user": "edwards","name": "rl-agent",           "state": "PENDING", "partition": "gpu", "nodes": [],      "gpus": 2, "elapsed_s": 0,     "time_limit_s": 43200, "start_estimate": "2026-10-05T19:47:00-04:00", "reason": "Priority"}
+  ],
+  "reservations": [
+    {"name": "maint_test", "nodes": ["n15"], "start": "2026-10-05T13:10:00-04:00", "end": "2026-10-15T14:00:00-04:00", "users": ["admin"]}
+  ]
+}
