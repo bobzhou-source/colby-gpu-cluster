@@ -123,6 +123,12 @@ enum GPUHardwareProfile {
 
 // MARK: - HTTP source
 
+enum ClusterSourceDefaults {
+    /// Colby HPC's public GPU node-status page. Reading it needs no SSH login
+    /// or cluster account, so it is the out-of-the-box source.
+    static let statusPageURL = "https://hpc.colby.edu/public/gpu.html"
+}
+
 enum StatusFeedError: LocalizedError, Sendable, Equatable {
     case invalidURL(String)
     case badStatus(Int)
@@ -130,6 +136,7 @@ enum StatusFeedError: LocalizedError, Sendable, Equatable {
     case malformedJSON(reason: String)
     case unsupportedRoot
     case unsupportedSchema(String?)
+    case unreadableHTML
 
     var errorDescription: String? {
         switch self {
@@ -146,12 +153,15 @@ enum StatusFeedError: LocalizedError, Sendable, Equatable {
         case let .unsupportedSchema(schema):
             let found = schema.map { "\($0)" } ?? "none"
             return "Status feed schema is \(found); expected \(StatusFeedMapper.supportedSchema)."
+        case .unreadableHTML:
+            return "Status page is HTML but has no node table this app can read."
         }
     }
 }
 
-/// Fetches a published `colby-gpu-status/1` document over HTTP and maps it into
-/// the same `ClusterSnapshot` the SSH source produces.
+/// Fetches a published `colby-gpu-status/1` JSON document, or Colby HPC's HTML
+/// node-status table, over HTTP and maps it into the same `ClusterSnapshot` the
+/// SSH source produces.
 struct HTTPStatusClient: Sendable {
     static let defaultTimeout: TimeInterval = 25
     static let maximumPayloadBytes = 8 * 1_024 * 1_024
@@ -172,7 +182,7 @@ struct HTTPStatusClient: Sendable {
         var request = URLRequest(url: url)
         request.timeoutInterval = Self.defaultTimeout
         request.cachePolicy = .reloadIgnoringLocalCacheData
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json, text/html;q=0.9", forHTTPHeaderField: "Accept")
 
         let (data, response) = try await session.data(for: request)
         if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
@@ -181,6 +191,9 @@ struct HTTPStatusClient: Sendable {
         guard !data.isEmpty else { throw StatusFeedError.emptyBody }
         guard data.count <= Self.maximumPayloadBytes else {
             throw StatusFeedError.badStatus(data.count)
+        }
+        if HTMLStatusPageMapper.looksLikeHTML(data) {
+            return try HTMLStatusPageMapper.snapshot(from: data, now: now())
         }
         return try StatusFeedMapper.snapshot(from: data, now: now())
     }
@@ -304,8 +317,10 @@ enum StatusFeedMapper {
         case "idle": return (.idle, "Idle")
         case "mixed": return (.partial, "Partial")
         case "allocated": return (.busy, "Allocated")
-        case "drain": return (.drain, "Drain")
+        case "drain", "drained": return (.drain, "Drain")
+        case "draining": return (.drain, "Draining")
         case "down": return (.drain, "Down")
+        case "maint": return (.drain, "Maintenance")
         case "reserved": return (.drain, "Reserved")
         case "": return (.unknown, "Unknown")
         default:

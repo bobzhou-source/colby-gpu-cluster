@@ -165,6 +165,9 @@ struct ClusterSnapshot: Sendable {
     var generatedAt: Date
     var nodes: [ClusterNode]
     var pending: [PendingJob]
+    /// False when the source publishes no queue at all (Colby's HTML page), so
+    /// an empty `pending` means "not reported" rather than "nothing queued".
+    var queuePublished = true
 
     static let empty = ClusterSnapshot(generatedAt: .now, nodes: [], pending: [])
 

@@ -12,7 +12,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let defaults = UserDefaults.standard
         let source = ClusterSourceResolution.source(
             kind: defaults.string(forKey: "dataSourceKind") ?? ClusterSourceKind.statusPage.rawValue,
-            url: defaults.string(forKey: "statusPageURL") ?? "",
+            url: defaults.string(forKey: "statusPageURL") ?? ClusterSourceDefaults.statusPageURL,
             host: defaults.string(forKey: "sshHost") ?? ""
         )
         if let host = source.sshHost, !host.isEmpty {
@@ -33,7 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let defaults = UserDefaults.standard
             let source = ClusterSourceResolution.source(
                 kind: defaults.string(forKey: "dataSourceKind") ?? ClusterSourceKind.statusPage.rawValue,
-                url: defaults.string(forKey: "statusPageURL") ?? "",
+                url: defaults.string(forKey: "statusPageURL") ?? ClusterSourceDefaults.statusPageURL,
                 host: defaults.string(forKey: "sshHost") ?? ""
             )
             Task { @MainActor in

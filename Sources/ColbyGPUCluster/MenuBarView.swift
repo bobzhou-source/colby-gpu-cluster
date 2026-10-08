@@ -70,7 +70,7 @@ struct MenuBarStatusPresentation {
 struct MenuBarStatusLabel: View {
     let store: ClusterStore
     @AppStorage("sshHost") private var sshHost = ""
-    @AppStorage("statusPageURL") private var statusPageURL = ""
+    @AppStorage("statusPageURL") private var statusPageURL = ClusterSourceDefaults.statusPageURL
     @AppStorage("dataSourceKind") private var dataSourceKind = ClusterSourceKind.statusPage.rawValue
     @AppStorage("autoRefresh") private var autoRefresh = true
     @AppStorage("refreshInterval") private var refreshInterval = 60
@@ -176,7 +176,7 @@ struct MenuBarStatusLabel: View {
 struct MenuBarPanel: View {
     let store: ClusterStore
     @AppStorage("sshHost") private var sshHost = ""
-    @AppStorage("statusPageURL") private var statusPageURL = ""
+    @AppStorage("statusPageURL") private var statusPageURL = ClusterSourceDefaults.statusPageURL
     @AppStorage("dataSourceKind") private var dataSourceKind = ClusterSourceKind.statusPage.rawValue
     @AppStorage("appTheme") private var appTheme = AppTheme.graphite.rawValue
     @AppStorage("refreshInterval") private var refreshInterval = 60
@@ -235,7 +235,9 @@ struct MenuBarPanel: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Colby GPU Cluster").font(.headline)
                 if store.hasLoaded, !store.snapshot.nodes.isEmpty {
-                    Text("\(store.snapshot.freeGPUs) GPUs free · \(store.snapshot.busyCount) allocated · \(store.snapshot.pending.count) jobs queued")
+                    Text(store.snapshot.queuePublished
+                        ? "\(store.snapshot.freeGPUs) GPUs free · \(store.snapshot.busyCount) allocated · \(store.snapshot.pending.count) jobs queued"
+                        : "\(store.snapshot.freeGPUs) GPUs free · \(store.snapshot.busyCount) allocated")
                         .font(.caption)
                         .foregroundStyle(palette.secondary)
                 } else if store.errorMessage != nil {

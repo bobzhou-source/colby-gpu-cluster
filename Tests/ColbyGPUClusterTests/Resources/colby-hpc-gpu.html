@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="60">
+  <title>GPU Node Status</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; background: #f4f6f8; }
+    .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .header-group { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+    .timestamp { font-size: 0.85em; color: #666; font-weight: 500; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+    th { background-color: #f8f9fa; font-weight: 600; }
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.85em; font-weight: bold; text-transform: uppercase; display: inline-block; }
+    .idle { background: #d4edda; color: #155724; }
+    .draining { background: #f8d7da; color: #721c24; }
+    .drained { background: #f8d7da; color: #721c24; }
+    .allocated { background: #cce5ff; color: #004085; }
+    .mixed { background: #fff3cd; color: #856404; }
+    .legend { border-top: 1px solid #e0e0e0; padding-top: 1rem; margin-top: 1rem; font-size: 0.9em; color: #444; }
+    .legend-title { font-weight: 600; margin-bottom: 0.5rem; }
+    .legend-items { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-group">
+      <h2>GPU Node Status</h2>
+      <div class="timestamp">Last Updated: 2026-10-08 19:23:02 EDT (Auto-refreshes every 60s)</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Node ID</th>
+          <th>State</th>
+          <th>Total Resources</th>
+          <th>Allocated GPUs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>n1</strong></td>
+          <td><span class="badge draining">draining</span></td>
+          <td>A100:2</td>
+          <td><span class="badge draining">A100:2</span></td>
+        </tr>
+        <tr>
+          <td><strong>n2</strong></td>
+          <td><span class="badge idle">idle</span></td>
+          <td>L40S:2</td>
+          <td><span class="badge idle">L40S:0</span></td>
+        </tr>
+        <tr>
+          <td><strong>n7</strong></td>
+          <td><span class="badge idle">idle</span></td>
+          <td>L4:1</td>
+          <td><span class="badge idle">L4:0</span></td>
+        </tr>
+        <tr>
+          <td><strong>n8</strong></td>
+          <td><span class="badge idle">idle</span></td>
+          <td>L4:1</td>
+          <td><span class="badge idle">L4:0</span></td>
+        </tr>
+        <tr>
+          <td><strong>n10</strong></td>
+          <td><span class="badge allocated">allocated</span></td>
+          <td>A100:2</td>
+          <td><span class="badge idle">A100:0</span></td>
+        </tr>
+        <tr>
+          <td><strong>n15</strong></td>
+          <td><span class="badge mixed">mixed</span></td>
+          <td>H200:4</td>
+          <td><span class="badge draining">H200:4</span></td>
+        </tr>
+        <tr>
+          <td><strong>n16</strong></td>
+          <td><span class="badge mixed">mixed</span></td>
+          <td>RTX:4</td>
+          <td><span class="badge idle">RTX:0</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <div class="legend-title">Allocated GPUs Key:</div>
+      <div class="legend-items">
+        <div class="legend-item"><span class="badge idle">Green</span> All GPUs are free</div>
+        <div class="legend-item"><span class="badge allocated">Blue</span> Some GPUs are free</div>
+        <div class="legend-item"><span class="badge draining">Red</span> All GPUs are allocated</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

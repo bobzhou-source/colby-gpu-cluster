@@ -1062,7 +1062,7 @@ struct CitySceneView: View {
     @AppStorage("refreshInterval") private var refreshInterval = 60
     @AppStorage("cityCycleDemo") private var cityCycleDemo = false
     @AppStorage("sshHost") private var sshHost = ""
-    @AppStorage("statusPageURL") private var statusPageURL = ""
+    @AppStorage("statusPageURL") private var statusPageURL = ClusterSourceDefaults.statusPageURL
     @AppStorage("dataSourceKind") private var dataSourceKind = ClusterSourceKind.statusPage.rawValue
     @State private var director = CityDirector()
     @State private var camera = CityCamera(scale: 1, translation: .zero)

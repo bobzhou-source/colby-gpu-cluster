@@ -48,8 +48,8 @@ quarantine flag yourself:
 xattr -dr com.apple.quarantine "/Applications/Colby GPU Cluster.app"
 ```
 
-Then pick a data source — see [Data sources](#data-sources). The published
-status page needs no SSH login.
+It works out of the box: the default data source is Colby HPC's public GPU
+status page, which needs no SSH login. See [Data sources](#data-sources).
 
 ### From source
 
@@ -77,21 +77,32 @@ launches the app and only writes to the output directory you give it
 
 ## Data sources
 
-The first run opens Settings with nothing configured. Pick one of the two
-sources:
+Out of the box the app reads Colby HPC's public GPU page,
+<https://hpc.colby.edu/public/gpu.html>, so it needs no configuration, no
+cluster account, and makes no SSH connection. **Settings → Connection** can
+switch to another source:
 
 | Source | What it needs | Poll floor | Notes |
 |---|---|---|---|
-| **Status page URL** (recommended) | A URL serving `colby-gpu-status/1` JSON | 30 s | No SSH login, no cluster account, no key. Set this and you are done. |
+| **Status page URL** (default) | Colby's public HTML page, or any URL serving `colby-gpu-status/1` JSON | 30 s | No SSH login, no cluster account, no key. |
 | **SSH** | A login node you can already reach with `ssh` | 60 s | Runs SLURM commands over SSH. Ask the HPC admin before polling the login node. |
 
 Both sources feed the same city view. If a URL is set, the status page is used;
 otherwise the app falls back to SSH. The picker in **Settings → Connection**
 chooses explicitly, and the **Active** row shows which source is really in use.
 
+### Colby's public page
+
+Colby HPC publishes `gpu.html`, refreshed every minute, with one row per GPU
+node: its scheduler state and its `TYPE:COUNT` total and allocated GPUs. The
+app reads that table directly, so plot colours and free/total counts match
+what the scheduler reports. The page lists no jobs, queue, or reservations, so
+the entrance queue and per-node job lists stay empty in this mode. The JSON
+feed below carries all of them.
+
 ### Status page
 
-Your HPC admin can publish the feed with the script in
+An HPC admin can publish the richer JSON feed with the script in
 [`publisher/`](publisher/README.md). It runs `sinfo`, `squeue`, and
 `scontrol show res` once per invocation and atomically writes `status.json`, so
 a 60-second cron or systemd timer costs the cluster three short commands a

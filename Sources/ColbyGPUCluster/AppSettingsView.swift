@@ -42,7 +42,7 @@ enum LaunchAtLoginToggleState: Equatable {
 
 struct AppSettingsView: View {
     @AppStorage("sshHost") private var sshHost = ""
-    @AppStorage("statusPageURL") private var statusPageURL = ""
+    @AppStorage("statusPageURL") private var statusPageURL = ClusterSourceDefaults.statusPageURL
     @AppStorage("dataSourceKind") private var dataSourceKind = ClusterSourceKind.statusPage.rawValue
     @AppStorage("autoRefresh") private var autoRefresh = true
     @AppStorage("refreshInterval") private var refreshInterval = 60
@@ -93,10 +93,10 @@ struct AppSettingsView: View {
                     TextField(
                         "Status page URL",
                         text: $statusPageURL,
-                        prompt: Text("https://example.edu/colby-gpu-status/status.json")
+                        prompt: Text(ClusterSourceDefaults.statusPageURL)
                     )
                     .textFieldStyle(.roundedBorder)
-                    Text("Recommended. A JSON status feed published by the cluster; needs no SSH login and no cluster account.")
+                    Text("Recommended. Colby HPC's public GPU page, or any colby-gpu-status/1 JSON feed; needs no SSH login and no cluster account.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
 
