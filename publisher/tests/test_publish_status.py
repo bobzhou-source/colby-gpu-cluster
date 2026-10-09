@@ -107,6 +107,11 @@ class TestGresParsing(unittest.TestCase):
     def test_comma_inside_suffix_is_not_a_separator(self):
         self.assertEqual(ps.parse_gres("gpu:h200:4(S:0-1,2)"), ("h200", 4))
 
+    def test_squeue_tres_prefix(self):
+        # Colby's `squeue %b` prints `gres/gpu:H200:2`; without this, every
+        # node published `gpus_used: 0` on 2026-10-08.
+        self.assertEqual(ps.parse_gres("gres/gpu:H200:2"), ("H200", 2))
+
 
 class TestStateMapping(unittest.TestCase):
     def test_known_states(self):

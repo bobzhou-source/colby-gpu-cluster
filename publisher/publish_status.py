@@ -110,8 +110,10 @@ def parse_gres(value: Optional[str]) -> tuple[Optional[str], int]:
     """Return ``(representative_type, total_count)`` for a GRES string.
 
     Handles ``(null)``/empty, socket/IDX suffixes such as ``gpu:h200:4(S:0-1)``
-    and ``gpu:H200:2(IDX:0-1)``, untyped ``gpu:4`` and multiple entries such as
-    ``gpu:a100:2,gpu:h200:4`` (counts are summed; the first *named* type wins).
+    and ``gpu:H200:2(IDX:0-1)``, untyped ``gpu:4``, the ``gres/`` prefix that
+    ``squeue %b`` prints on Colby (``gres/gpu:H200:2``) and multiple entries
+    such as ``gpu:a100:2,gpu:h200:4`` (counts are summed; the first *named*
+    type wins).
     """
     if is_null(value):
         return None, 0
@@ -120,6 +122,8 @@ def parse_gres(value: Optional[str]) -> tuple[Optional[str], int]:
     total = 0
     for item in _split_top_level(value or "", "(", ")"):
         base = item.strip().split("(", 1)[0].strip()
+        if base.lower().startswith("gres/"):
+            base = base[len("gres/"):]
         fields = base.split(":")
         if not fields or fields[0].lower() != "gpu":
             continue
