@@ -67,6 +67,31 @@ final class HTMLStatusPageMapperTests: XCTestCase {
         }
     }
 
+    func testSinfoFlagSuffixesKeepTheBaseStateAvailability() throws {
+        // gpu.html publishes sinfo's long state with flag suffixes; `mixed-`
+        // (planned by backfill) showed up live on n15 on 2026-10-08.
+        let html = """
+        <table><tbody>
+        <tr><td>n15</td><td>mixed-</td><td>H200:4</td><td>H200:2</td></tr>
+        <tr><td>n2</td><td>idle*</td><td>L40S:2</td><td>L40S:0</td></tr>
+        <tr><td>n7</td><td>drained$</td><td>L4:1</td><td>L4:0</td></tr>
+        </tbody></table>
+        """
+        let nodes = try HTMLStatusPageMapper.snapshot(from: Data(html.utf8)).nodes
+        let planned = try XCTUnwrap(nodes.first { $0.name == "n15" })
+        XCTAssertEqual(planned.status, .partial)
+        XCTAssertEqual(planned.state, "mixed")
+        XCTAssertEqual(planned.stateLabel, "Partial · held for a queued job")
+        XCTAssertEqual(planned.freeGPUCount, 2)
+
+        let silent = try XCTUnwrap(nodes.first { $0.name == "n2" })
+        XCTAssertEqual(silent.status, .drain)
+        XCTAssertEqual(silent.stateLabel, "Not responding")
+        XCTAssertEqual(silent.freeGPUCount, 0)
+
+        XCTAssertEqual(nodes.first { $0.name == "n7" }?.status, .drain)
+    }
+
     func testHTTPClientRoutesHTMLAndJSONBodiesToTheirMappers() async throws {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [FixtureURLProtocol.self]

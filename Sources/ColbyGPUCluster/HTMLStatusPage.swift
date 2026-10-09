@@ -58,8 +58,8 @@ enum HTMLStatusPageMapper {
                 used: min(count, max(0, used[entry.type.lowercased()] ?? 0))
             )
         }
-        let state = rawState.lowercased()
-        let (status, label) = StatusFeedMapper.statusAndLabel(forFeedState: state, reason: nil)
+        let state = StatusFeedMapper.baseState(rawState)
+        let (status, label) = StatusFeedMapper.statusAndLabel(forFeedState: rawState, reason: nil)
         return ClusterNode(name: name, gres: gres, state: state, status: status, stateLabel: label, jobs: [])
     }
 

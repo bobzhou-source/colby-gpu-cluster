@@ -265,8 +265,9 @@ enum StatusFeedMapper {
         let total = max(0, integer(entry["gpus_total"]) ?? 0)
         let used = min(total, max(0, integer(entry["gpus_used"]) ?? 0))
         let hardware = GPUHardwareProfile.lookup(gpuType)
-        let state = (string(entry["state"]) ?? "unknown").lowercased()
-        let (status, label) = statusAndLabel(forFeedState: state, reason: string(entry["reason"]))
+        let rawState = string(entry["state"]) ?? "unknown"
+        let state = baseState(rawState)
+        let (status, label) = statusAndLabel(forFeedState: rawState, reason: string(entry["reason"]))
 
         return ClusterNode(
             name: name,
@@ -312,16 +313,38 @@ enum StatusFeedMapper {
         )
     }
 
-    static func statusAndLabel(forFeedState state: String, reason: String?) -> (NodeStatus, String) {
+    /// Long-form scheduler states may carry sinfo's flag suffixes (`mixed-`
+    /// planned by backfill, `idle*` not responding, `drained$` maintenance,
+    /// ...). Availability comes from the base state; the planned flag is kept
+    /// in the label because it means the free GPUs are held for a queued job.
+    static func statusAndLabel(forFeedState rawState: String, reason: String?) -> (NodeStatus, String) {
+        let state = baseState(rawState)
+        let flags = rawState.lowercased().dropFirst(state.count)
+        if flags.contains("*") { return (.drain, "Not responding") }
+        let (status, label) = baseStatusAndLabel(state, reason: reason)
+        guard flags.contains("-") else { return (status, label) }
+        return (status, "\(label) · held for a queued job")
+    }
+
+    static func baseState(_ rawState: String) -> String {
+        rawState.lowercased().trimmingCharacters(in: SlurmParser.stateFlagCharacters.union(.whitespaces))
+    }
+
+    private static func baseStatusAndLabel(_ state: String, reason: String?) -> (NodeStatus, String) {
         switch state {
         case "idle": return (.idle, "Idle")
         case "mixed": return (.partial, "Partial")
         case "allocated": return (.busy, "Allocated")
+        case "completing": return (.busy, "Completing")
+        case "planned": return (.busy, "Held for a queued job")
         case "drain", "drained": return (.drain, "Drain")
         case "draining": return (.drain, "Draining")
         case "down": return (.drain, "Down")
+        case "fail", "failing": return (.drain, "Failing")
         case "maint": return (.drain, "Maintenance")
         case "reserved": return (.drain, "Reserved")
+        case "reboot", "reboot_issued", "boot": return (.drain, "Rebooting")
+        case "power_down", "powered_down", "powering_down", "powering_up": return (.drain, "Powered down")
         case "": return (.unknown, "Unknown")
         default:
             if let reason, !reason.isEmpty { return (.unknown, reason) }

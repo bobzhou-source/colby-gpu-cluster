@@ -178,7 +178,7 @@ enum SlurmParser {
         }
     }
 
-    private static let stateFlagCharacters = CharacterSet(charactersIn: "*~#%!@^-$+")
+    static let stateFlagCharacters = CharacterSet(charactersIn: "*~#%!@^-$+")
 
     private static func parseGRESCounts(_ text: String) -> [String: Int] {
         Dictionary(uniqueKeysWithValues: text.split(separator: ",").compactMap { chunk in
