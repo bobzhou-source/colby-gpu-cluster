@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+title: "Colby GPU Cluster: Native SwiftUI macOS Menu-Bar App Visualizing Slurm GPU Node, Job and Queue State on the Colby College HPC Cluster"
+abstract: "Native SwiftUI macOS menu-bar app that renders the Colby College HPC Slurm GPU partition as a pannable, zoomable isometric city: free, allocated and unavailable GPUs per node, running jobs with elapsed and wall-clock limits, the pending queue with scheduler reasons, and reservations. Reads Colby's public GPU status page or any colby-gpu-status/1 JSON feed, or polls Slurm over SSH."
+authors:
+  - family-names: Zhou
+    given-names: Robert
+    orcid: https://orcid.org/0009-0009-2155-7215
+    affiliation: Colby College
+    website: https://robertzhou.dev
+url: https://robertzhou.dev
+repository-code: https://github.com/bobzhou-source/colby-gpu-cluster
+license: MIT
+keywords:
+  - "Slurm"
+  - "HPC"
+  - "GPU cluster"
+  - "SwiftUI"
+  - "macOS"
+  - "menu bar app"
+  - "cluster monitoring"
+  - "GPU scheduling"
+  - "vLLM"
+  - "llama.cpp"
+  - "Colby College"
+  - "research computing"
+  - "Swift"
+  - "Robert Zhou"
