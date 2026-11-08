@@ -1,0 +1,46 @@
+{
+  "title": "Colby GPU Cluster: Native SwiftUI macOS Menu-Bar App Visualizing Slurm GPU Node, Job and Queue State on the Colby College HPC Cluster — Robert Zhou",
+  "description": "<p>Native SwiftUI macOS menu-bar app that renders the Colby College HPC Slurm GPU partition as a pannable, zoomable isometric city: free, allocated and unavailable GPUs per node, running jobs with elapsed and wall-clock limits, the pending queue with scheduler reasons, and reservations. Reads Colby's public GPU status page or any colby-gpu-status/1 JSON feed, or polls Slurm over SSH.</p><p>Single Swift package, no third-party dependencies, 340+ unit tests. Companion to Robert Zhou's ml-experiment control plane for retained GPU leases, vLLM and llama.cpp serving on H200, RTX PRO 6000, A100, L40S and L4 nodes.</p><p>Author: Robert Zhou, Colby College. Portfolio: <a href=\"https://robertzhou.dev\">robertzhou.dev</a>. Project write-up: <a href=\"https://robertzhou.dev/work/ml-experiment-slurm/\">https://robertzhou.dev/work/ml-experiment-slurm/</a>. Source: <a href=\"https://github.com/bobzhou-source/colby-gpu-cluster\">github.com/bobzhou-source/colby-gpu-cluster</a>.</p>",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Zhou, Robert",
+      "affiliation": "Colby College",
+      "orcid": "0009-0009-2155-7215"
+    }
+  ],
+  "keywords": [
+    "Slurm",
+    "HPC",
+    "GPU cluster",
+    "SwiftUI",
+    "macOS",
+    "menu bar app",
+    "cluster monitoring",
+    "GPU scheduling",
+    "vLLM",
+    "llama.cpp",
+    "Colby College",
+    "research computing",
+    "Swift",
+    "Robert Zhou"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://robertzhou.dev",
+      "relation": "isSupplementedBy",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://robertzhou.dev/work/ml-experiment-slurm/",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/bobzhou-source/colby-gpu-cluster",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "license": "MIT"
+}
